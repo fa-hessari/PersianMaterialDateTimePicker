@@ -702,4 +702,9 @@ public class DatePickerDialog extends DialogFragment
     void onChangeToMiladiDateClicked(DatePickerDialog view, int year, int monthOfYear,
         int dayOfMonth);
   }
+
+  public void setOnChangeToMiladiDateClickListener(
+      OnChangeToMiladiDateClickListener onChangeToMiladiDateClickListener) {
+    this.onChangeToMiladiDateClickListener = onChangeToMiladiDateClickListener;
+  }
 }
