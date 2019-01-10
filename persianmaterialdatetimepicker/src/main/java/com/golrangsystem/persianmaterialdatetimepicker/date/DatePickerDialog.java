@@ -107,12 +107,19 @@ public class DatePickerDialog extends DialogFragment
   private String mYearPickerDescription;
   private String mSelectYear;
   private boolean hasTitle = true;
-  private String headerTitle;
+  private String mTitleText;
   private boolean hasMiladiButton = false;
   private OnChangeToMiladiDateClickListener onChangeToMiladiDateClickListener;
-  private int mChangeToMiladiColor = -1;
+  private int mChangeToMiladiTextColor = -1;
   private String mChangeToMiladiString;
   private int mChangeToMiladiResId = R.string.mdtp_ad_date;
+  private int mTitleTextColor = -1;
+  private int mTitleBackgroundColor = -1;
+  private int mMainBackgroundColor = -1;
+  private int mOkButtonTextColor = -1;
+  private int mCancelButtonTextColor = -1;
+  private String mOkButtonText;
+  private String mCancelButtonText;
 
   public DatePickerDialog() {
     // Empty constructor required for dialog fragment.
@@ -190,9 +197,20 @@ public class DatePickerDialog extends DialogFragment
 
     View view = inflater.inflate(R.layout.mdtp_date_picker_dialog, null);
 
+    mDatePickerHeader = (TextView) view.findViewById(R.id.date_picker_header);
     if (hasTitle) {
-      mDatePickerHeader = (TextView) view.findViewById(R.id.date_picker_header);
-      mDatePickerHeader.setTextColor(getResources().getColor(R.color.mdtp_date_picker_text_normal));
+      if (mTitleText != null) {
+        mDatePickerHeader.setText(mTitleText);
+      }
+      if (mTitleTextColor != -1) {
+        mDatePickerHeader.setTextColor(mTitleTextColor);
+      }
+      if (mTitleBackgroundColor != -1) {
+        mDatePickerHeader.setBackgroundColor(mTitleBackgroundColor);
+      } else {
+        mDatePickerHeader.setTextColor(
+            getResources().getColor(R.color.mdtp_date_picker_text_normal));
+      }
     } else {
       mDatePickerHeader.setVisibility(View.GONE);
     }
@@ -260,6 +278,12 @@ public class DatePickerDialog extends DialogFragment
         dismiss();
       }
     });
+    if (mOkButtonText != null) {
+      okButton.setText(mOkButtonText);
+    }
+    if (mOkButtonTextColor != -1) {
+      okButton.setTextColor(mOkButtonTextColor);
+    }
     okButton.setTypeface(TypefaceHelper.get(activity, "Roboto-Medium"));
 
     cancelButton = (Button) view.findViewById(R.id.cancel);
@@ -269,6 +293,12 @@ public class DatePickerDialog extends DialogFragment
         getDialog().cancel();
       }
     });
+    if (mCancelButtonText != null) {
+      cancelButton.setText(mCancelButtonText);
+    }
+    if (mCancelButtonTextColor != -1) {
+      cancelButton.setTextColor(mCancelButtonTextColor);
+    }
     cancelButton.setTypeface(TypefaceHelper.get(activity, "Roboto-Medium"));
     cancelButton.setVisibility(isCancelable() ? View.VISIBLE : View.GONE);
 
@@ -283,11 +313,11 @@ public class DatePickerDialog extends DialogFragment
       }
     }
 
+    Button changeToMiladiBt = view.findViewById(R.id.mdtp_change_to_miladi);
     if (hasMiladiButton) {
-      Button changeToMiladiBt = view.findViewById(R.id.mdtp_change_to_miladi);
       changeToMiladiBt.setVisibility(View.VISIBLE);
-      if (mChangeToMiladiColor != -1) {
-        changeToMiladiBt.setTextColor(mChangeToMiladiColor);
+      if (mChangeToMiladiTextColor != -1) {
+        changeToMiladiBt.setTextColor(mChangeToMiladiTextColor);
       } else {
         changeToMiladiBt.setTextColor(
             getResources().getColor(R.color.mdtp_date_picker_text_normal));
@@ -383,42 +413,42 @@ public class DatePickerDialog extends DialogFragment
     this.hasTitle = hasTitle;
   }
 
-  public void setHeaderTitle(String headerTitle) {
-    if (mDatePickerHeader != null && hasTitle) {
-      this.headerTitle = headerTitle;
-      mDatePickerHeader.setText(headerTitle);
-    }
+  public void setTitleText(String headerTitle) {
+    this.mTitleText = headerTitle;
   }
 
-  public void setHeaderTitleColor(int color) {
-    if (mDatePickerHeader != null && hasTitle) {
-      mDatePickerHeader.setTextColor(color);
-    }
+  public void setTitleTextColor(int color) {
+    this.mTitleTextColor = color;
   }
 
-  public void setHeaderBackgroundColor(int color) {
-    if (mDatePickerHeader != null && hasTitle) {
-      mDatePickerHeader.setBackgroundColor(color);
-    }
+  public void setTitleBackgroundColor(int color) {
+    this.mTitleBackgroundColor = color;
   }
 
-  public void setTopMainBackgroundColor(int color) {
-    mTopMainView.setBackgroundColor(color);
+  public void setMainBackgroundColor(int color) {
+    this.mMainBackgroundColor = color;
+  }
+
+  public void setOkButtonText(String mOkButtonText) {
+    this.mOkButtonText = mOkButtonText;
   }
 
   public void setOkButtonTextColor(int color) {
-    okButton.setTextColor(color);
+    this.mOkButtonTextColor = color;
+  }
+
+  public void setCancelButtonText(String mCancelButtonText) {
+    this.mCancelButtonText = mCancelButtonText;
   }
 
   public void setCancelButtonTextColor(int color) {
-    cancelButton.setTextColor(color);
+    this.mCancelButtonTextColor = color;
   }
 
   private void updateDisplay(boolean announce) {
-    if (mDatePickerHeader != null && hasTitle && headerTitle != null) {
+    if (mDatePickerHeader != null && hasTitle && mTitleText != null) {
       mDatePickerHeader.setText(mPersianCalendar.getPersianWeekDayName());
     }
-
     mSelectedMonthTextView.setText(LanguageUtils.
         getPersianNumbers(mPersianCalendar.getPersianMonthName()));
     mSelectedDayTextView.setText(LanguageUtils.
@@ -469,8 +499,8 @@ public class DatePickerDialog extends DialogFragment
    *
    * @param color the color you want
    */
-  @SuppressWarnings("unused") public void setChangeToMiladiColor(String color) {
-    mChangeToMiladiColor = Color.parseColor(color);
+  @SuppressWarnings("unused") public void setChangeToMiladiTextColor(String color) {
+    mChangeToMiladiTextColor = Color.parseColor(color);
   }
 
   /**
@@ -478,8 +508,9 @@ public class DatePickerDialog extends DialogFragment
    *
    * @param color the color you want
    */
-  @SuppressWarnings("unused") public void setChangeToMiladiColor(@ColorInt int color) {
-    mChangeToMiladiColor = Color.argb(255, Color.red(color), Color.green(color), Color.blue(color));
+  @SuppressWarnings("unused") public void setChangeToMiladiTextColor(@ColorInt int color) {
+    mChangeToMiladiTextColor =
+        Color.argb(255, Color.red(color), Color.green(color), Color.blue(color));
   }
 
   /**
