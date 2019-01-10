@@ -194,6 +194,7 @@ public class DatePickerDialog extends DialogFragment
 
     if (hasTitle) {
       mDatePickerHeader = (TextView) view.findViewById(R.id.date_picker_header);
+      mDatePickerHeader.setTextColor(getResources().getColor(R.color.mdtp_date_picker_text_normal));
     } else {
       mDatePickerHeader.setVisibility(View.GONE);
     }
@@ -289,7 +290,8 @@ public class DatePickerDialog extends DialogFragment
       if (mChangeToMiladiColor != -1) {
         changeToMiladiBt.setTextColor(mChangeToMiladiColor);
       } else {
-        changeToMiladiBt.setTextColor(mAccentColor);
+        changeToMiladiBt.setTextColor(
+            getResources().getColor(R.color.mdtp_date_picker_text_normal));
       }
       if (mChangeToMiladiString != null) {
         changeToMiladiBt.setText(mChangeToMiladiString);
@@ -386,6 +388,12 @@ public class DatePickerDialog extends DialogFragment
     if (mDatePickerHeader != null && hasTitle) {
       this.headerTitle = headerTitle;
       mDatePickerHeader.setText(headerTitle);
+    }
+  }
+
+  public void setHeaderTitleColor(int color) {
+    if (mDatePickerHeader != null && hasTitle) {
+      mDatePickerHeader.setTextColor(color);
     }
   }
 
