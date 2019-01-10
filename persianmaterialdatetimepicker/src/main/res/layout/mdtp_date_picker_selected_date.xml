@@ -14,7 +14,6 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/day_picker_selected_date_layout"
@@ -23,52 +22,52 @@
     android:layout_weight="1"
     android:background="@color/mdtp_accent_color"
     android:gravity="center"
-    android:orientation="vertical">
-
-    <com.mohamadamin.persianmaterialdatetimepicker.AccessibleLinearLayout
-        android:id="@+id/date_picker_month_and_day"
+    android:orientation="vertical"
+    >
+  <com.mohamadamin.persianmaterialdatetimepicker.AccessibleLinearLayout
+      android:id="@+id/date_picker_month_and_day"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:clickable="true"
+      android:orientation="vertical"
+      android:textColor="@color/mdtp_date_picker_selector"
+      >
+    <TextView
+        android:id="@+id/date_picker_month"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:textColor="@color/mdtp_date_picker_selector" >
-
-        <TextView
-            android:id="@+id/date_picker_month"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:duplicateParentState="true"
-            android:gravity="center_horizontal|bottom"
-            android:includeFontPadding="false"
-            android:textColor="@color/mdtp_date_picker_selector"
-            android:textSize="@dimen/mdtp_selected_date_month_size"
-            tools:text="May"/>
-
-        <TextView
-            android:id="@+id/date_picker_day"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="-10dip"
-            android:layout_marginTop="-10dip"
-            android:duplicateParentState="true"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:textColor="@color/mdtp_date_picker_selector"
-            android:textSize="@dimen/mdtp_selected_date_day_size"
-            tools:text="15"/>
-    </com.mohamadamin.persianmaterialdatetimepicker.AccessibleLinearLayout>
-
-    <com.mohamadamin.persianmaterialdatetimepicker.AccessibleTextView
-        android:id="@+id/date_picker_year"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal|top"
+        android:duplicateParentState="true"
+        android:gravity="center_horizontal|bottom"
         android:includeFontPadding="false"
         android:textColor="@color/mdtp_date_picker_selector"
-        android:textSize="@dimen/mdtp_selected_date_year_size"
-        tools:text="2015" />
-
-</LinearLayout>
+        android:textSize="@dimen/mdtp_selected_date_month_size"
+        tools:text="May"
+        />
+    <TextView
+        android:id="@+id/date_picker_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="-10dip"
+        android:layout_marginTop="-10dip"
+        android:duplicateParentState="true"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:textColor="@color/mdtp_date_picker_selector"
+        android:textSize="@dimen/mdtp_selected_date_day_size"
+        tools:text="15"
+        />
+  </com.mohamadamin.persianmaterialdatetimepicker.AccessibleLinearLayout>
+  <com.mohamadamin.persianmaterialdatetimepicker.AccessibleTextView
+      android:id="@+id/date_picker_year"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:gravity="center_horizontal|top"
+      android:includeFontPadding="false"
+      android:textColor="@color/mdtp_date_picker_selector"
+      android:textSize="@dimen/mdtp_selected_date_year_size"
+      tools:text="2015"
+      />
+</LinearLayout><!-- From: file:/E:/Program%20Files/Android/Github/PersianMaterialDateTimePicker/persianmaterialdatetimepicker/src/main/res/layout/mdtp_date_picker_selected_date.xml -->

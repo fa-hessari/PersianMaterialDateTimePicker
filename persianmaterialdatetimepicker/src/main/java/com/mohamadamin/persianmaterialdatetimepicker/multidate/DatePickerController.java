@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.mohamadamin.persianmaterialdatetimepicker.multidate;
 
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
-
 import java.util.ArrayList;
 
 /**
  * Controller class to communicate among the various components of the date picker dialog.
  */
 public interface DatePickerController {
-
   void onYearSelected(int year);
 
   void onDaysOfMonthSelected(ArrayList<PersianCalendar> selectedDays);
@@ -57,7 +54,7 @@ public interface DatePickerController {
 
   void tryVibrate();
 
-  void setTypeface(String fontName);
-
   String getTypeface();
+
+  void setTypeface(String fontName);
 }

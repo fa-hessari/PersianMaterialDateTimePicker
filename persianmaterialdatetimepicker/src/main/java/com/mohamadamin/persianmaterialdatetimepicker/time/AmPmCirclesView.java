@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.mohamadamin.persianmaterialdatetimepicker.time;
 
 import android.content.Context;
@@ -21,11 +20,10 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
-
 import com.mohamadamin.persianmaterialdatetimepicker.R;
-import com.mohamadamin.persianmaterialdatetimepicker.TypefaceHelper;
 import com.mohamadamin.persianmaterialdatetimepicker.Utils;
 
 /**
@@ -33,11 +31,11 @@ import com.mohamadamin.persianmaterialdatetimepicker.Utils;
  */
 public class AmPmCirclesView extends View {
   private static final String TAG = "AmPmCirclesView";
-
   // Alpha level for selected circle.
   private static final int SELECTED_ALPHA = Utils.SELECTED_ALPHA;
   private static final int SELECTED_ALPHA_THEME_DARK = Utils.SELECTED_ALPHA_THEME_DARK;
-
+  private static final int AM = TimePickerDialog.AM;
+  private static final int PM = TimePickerDialog.PM;
   private final Paint mPaint = new Paint();
   private int mSelectedAlpha;
   private int mTouchedColor;
@@ -50,10 +48,6 @@ public class AmPmCirclesView extends View {
   private String mAmText;
   private String mPmText;
   private boolean mIsInitialized;
-
-  private static final int AM = TimePickerDialog.AM;
-  private static final int PM = TimePickerDialog.PM;
-
   private boolean mDrawValuesReady;
   private int mAmPmCircleRadius;
   private int mAmXCenter;
@@ -61,22 +55,17 @@ public class AmPmCirclesView extends View {
   private int mAmPmYCenter;
   private int mAmOrPm;
   private int mAmOrPmPressed;
-  private Context context;
-  private String fontName="DroidNaskh-Regular";
 
-  public AmPmCirclesView(Context context, String fontName) {
+  public AmPmCirclesView(Context context) {
     super(context);
-    this.context = context;
     mIsInitialized = false;
-    this.fontName = fontName;
   }
 
-  public void initialize(Context context, int amOrPm, String fontName) {
+  public void initialize(Context context, int amOrPm) {
     if (mIsInitialized) {
       Log.e(TAG, "AmPmCirclesView may only be initialized once.");
       return;
     }
-    this.fontName = fontName;
 
     Resources res = context.getResources();
     mUnselectedColor = res.getColor(R.color.mdtp_white);
@@ -85,16 +74,18 @@ public class AmPmCirclesView extends View {
     mAmPmTextColor = res.getColor(R.color.mdtp_ampm_text_color);
     mAmPmSelectedTextColor = res.getColor(R.color.mdtp_white);
     mSelectedAlpha = SELECTED_ALPHA;
-    mPaint.setTypeface(TypefaceHelper.get(context, fontName));
+    String typefaceFamily = res.getString(R.string.mdtp_sans_serif);
+    Typeface tf = Typeface.create(typefaceFamily, Typeface.NORMAL);
+    mPaint.setTypeface(tf);
     mPaint.setAntiAlias(true);
     mPaint.setTextAlign(Align.CENTER);
 
     mCircleRadiusMultiplier =
-      Float.parseFloat(res.getString(R.string.mdtp_circle_radius_multiplier));
+        Float.parseFloat(res.getString(R.string.mdtp_circle_radius_multiplier));
     mAmPmCircleRadiusMultiplier =
-      Float.parseFloat(res.getString(R.string.mdtp_ampm_circle_radius_multiplier));
-    mAmText = getContext().getString(R.string.am_label);
-    mPmText = getContext().getString(R.string.pm_label);
+        Float.parseFloat(res.getString(R.string.mdtp_ampm_circle_radius_multiplier));
+    mAmText = "قبل‌ازظهر";
+    mPmText = "بعدازظهر";
 
     setAmOrPm(amOrPm);
     mAmOrPmPressed = -1;
@@ -136,13 +127,13 @@ public class AmPmCirclesView extends View {
     int squaredYDistance = (int) ((yCoord - mAmPmYCenter) * (yCoord - mAmPmYCenter));
 
     int distanceToAmCenter =
-      (int) Math.sqrt((xCoord - mAmXCenter) * (xCoord - mAmXCenter) + squaredYDistance);
+        (int) Math.sqrt((xCoord - mAmXCenter) * (xCoord - mAmXCenter) + squaredYDistance);
     if (distanceToAmCenter <= mAmPmCircleRadius) {
       return AM;
     }
 
     int distanceToPmCenter =
-      (int) Math.sqrt((xCoord - mPmXCenter) * (xCoord - mPmXCenter) + squaredYDistance);
+        (int) Math.sqrt((xCoord - mPmXCenter) * (xCoord - mPmXCenter) + squaredYDistance);
     if (distanceToPmCenter <= mAmPmCircleRadius) {
       return PM;
     }
@@ -151,8 +142,7 @@ public class AmPmCirclesView extends View {
     return -1;
   }
 
-  @Override
-  public void onDraw(Canvas canvas) {
+  @Override public void onDraw(Canvas canvas) {
     int viewWidth = getWidth();
     if (viewWidth == 0 || !mIsInitialized) {
       return;
@@ -161,11 +151,10 @@ public class AmPmCirclesView extends View {
     if (!mDrawValuesReady) {
       int layoutXCenter = getWidth() / 2;
       int layoutYCenter = getHeight() / 2;
-      int circleRadius =
-        (int) (Math.min(layoutXCenter, layoutYCenter) * mCircleRadiusMultiplier);
+      int circleRadius = (int) (Math.min(layoutXCenter, layoutYCenter) * mCircleRadiusMultiplier);
       mAmPmCircleRadius = (int) (circleRadius * mAmPmCircleRadiusMultiplier);
       layoutYCenter += mAmPmCircleRadius * 0.75;
-      int textSize = mAmPmCircleRadius * 3 / 4;
+      int textSize = mAmPmCircleRadius * 3 / 7;
       mPaint.setTextSize(textSize);
 
       // Line up the vertical center of the AM/PM circles with the bottom of the main circle.
@@ -218,6 +207,5 @@ public class AmPmCirclesView extends View {
     canvas.drawText(mAmText, mAmXCenter, textYCenter, mPaint);
     mPaint.setColor(pmTextColor);
     canvas.drawText(mPmText, mPmXCenter, textYCenter, mPaint);
-    mPaint.setTypeface(TypefaceHelper.get(context, fontName));
   }
 }

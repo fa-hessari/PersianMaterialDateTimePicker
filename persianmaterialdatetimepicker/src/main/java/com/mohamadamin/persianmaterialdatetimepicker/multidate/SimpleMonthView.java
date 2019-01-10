@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.mohamadamin.persianmaterialdatetimepicker.multidate;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-
 import com.mohamadamin.persianmaterialdatetimepicker.TypefaceHelper;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.LanguageUtils;
-
 import java.util.Locale;
 
 public class SimpleMonthView extends MonthView {
@@ -35,23 +32,27 @@ public class SimpleMonthView extends MonthView {
   }
 
   @Override
-  public void drawMonthDay(Canvas canvas, int year, int month, int day,
-                           int x, int y, int startX, int stopX, int startY, int stopY) {
+  public void drawMonthDay(Canvas canvas, int year, int month, int day, int x, int y, int startX,
+      int stopX, int startY, int stopY) {
     boolean flag = false;
     for (int selectedDays : mSelectedDays) {
       if (day == selectedDays) {
         canvas.drawCircle(x, y - (MINI_DAY_NUMBER_TEXT_SIZE / 3), DAY_SELECTED_CIRCLE_SIZE,
-          mSelectedCirclePaint);
+            mSelectedCirclePaint);
         flag = true;
         break;
       }
     }
 
     if (isHighlighted(year, month, day)) {
-      Typeface typefaceBold = Typeface.create(TypefaceHelper.get(getContext(), controller.getTypeface()), Typeface.BOLD);
+      Typeface typefaceBold =
+          Typeface.create(TypefaceHelper.get(getContext(), controller.getTypeface()),
+              Typeface.BOLD);
       mMonthNumPaint.setTypeface(typefaceBold);
     } else {
-      Typeface typefaceNormal = Typeface.create(TypefaceHelper.get(getContext(), controller.getTypeface()), Typeface.NORMAL);
+      Typeface typefaceNormal =
+          Typeface.create(TypefaceHelper.get(getContext(), controller.getTypeface()),
+              Typeface.NORMAL);
       mMonthNumPaint.setTypeface(typefaceNormal);
     }
 
@@ -63,10 +64,11 @@ public class SimpleMonthView extends MonthView {
     } else if (mHasToday && mToday == day) {
       mMonthNumPaint.setColor(mTodayNumberColor);
     } else {
-      mMonthNumPaint.setColor(isHighlighted(year, month, day) ? mHighlightedDayTextColor : mDayTextColor);
+      mMonthNumPaint.setColor(
+          isHighlighted(year, month, day) ? mHighlightedDayTextColor : mDayTextColor);
     }
 
     canvas.drawText(LanguageUtils.
-      getPersianNumbers(String.format(Locale.getDefault(),"%d", day)), x, y, mMonthNumPaint);
+        getPersianNumbers(String.format(Locale.getDefault(), "%d", day)), x, y, mMonthNumPaint);
   }
 }

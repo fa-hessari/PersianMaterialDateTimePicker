@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.mohamadamin.persianmaterialdatetimepicker.date;
 
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
@@ -22,7 +21,6 @@ import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
  * Controller class to communicate among the various components of the date picker dialog.
  */
 public interface DatePickerController {
-
   void onYearSelected(int year);
 
   void onDayOfMonthSelected(int year, int month, int day);
@@ -50,8 +48,4 @@ public interface DatePickerController {
   PersianCalendar getMaxDate();
 
   void tryVibrate();
-
-  void setTypeface(String fontName);
-
-  String getTypeface();
 }

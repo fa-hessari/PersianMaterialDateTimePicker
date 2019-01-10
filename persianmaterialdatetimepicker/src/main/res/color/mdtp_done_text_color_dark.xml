@@ -14,8 +14,6 @@
      limitations under the License.
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:state_enabled="false" android:color="@color/mdtp_done_text_color_dark_disabled"/>
-    <item android:color="@color/mdtp_done_text_color_dark_normal"/>
-
-</selector>
+  <item android:color="@color/mdtp_done_text_color_dark_disabled" android:state_enabled="false"/>
+  <item android:color="@color/mdtp_done_text_color_dark_normal"/>
+</selector><!-- From: file:/E:/Program%20Files/Android/Github/PersianMaterialDateTimePicker/persianmaterialdatetimepicker/src/main/res/color/mdtp_done_text_color_dark.xml -->

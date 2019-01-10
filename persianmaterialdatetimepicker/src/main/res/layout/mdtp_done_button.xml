@@ -17,27 +17,29 @@
     android:id="@+id/done_background"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:orientation="horizontal"
+    android:layout_gravity="center_vertical"
     android:background="@android:color/transparent"
     android:gravity="end|right"
-    android:layout_gravity="center_vertical"
-    android:paddingBottom="8dp">
-
-    <Button
-        android:id="@+id/cancel"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
-        style="@style/mdtp_ActionButton.Text"
-        android:text="@string/mdtp_cancel" />
-
-    <Button
-        android:id="@+id/ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        style="@style/mdtp_ActionButton.Text"
-        android:text="@string/mdtp_ok" />
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    >
+  <Button
+      android:id="@+id/cancel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="8dp"
+      android:layout_marginRight="8dp"
+      android:text="@string/mdtp_cancel"
+      style="@style/mdtp_ActionButton.Text"
+      />
+  <Button
+      android:id="@+id/ok"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="16dp"
+      android:layout_marginRight="16dp"
+      android:text="@string/mdtp_ok"
+      style="@style/mdtp_ActionButton.Text"
+      />
 </LinearLayout>
+    <!-- From: file:/E:/Program%20Files/Android/Github/PersianMaterialDateTimePicker/persianmaterialdatetimepicker/src/main/res/layout/mdtp_done_button.xml -->

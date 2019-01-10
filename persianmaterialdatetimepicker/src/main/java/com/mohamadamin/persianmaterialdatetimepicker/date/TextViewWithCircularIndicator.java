@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.mohamadamin.persianmaterialdatetimepicker.date;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -25,68 +23,61 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-
+import android.widget.TextView;
 import com.mohamadamin.persianmaterialdatetimepicker.R;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.LanguageUtils;
 
 /**
  * A text view which, when pressed or activated, displays a colored circle around the text.
  */
-public class TextViewWithCircularIndicator extends android.support.v7.widget.AppCompatTextView {
+public class TextViewWithCircularIndicator extends TextView {
+  private static final int SELECTED_CIRCLE_ALPHA = 255;
+  private final int mRadius;
+  private final int mCircleColor;
+  private final String mItemIsSelectedText;
+  Paint mCirclePaint = new Paint();
+  private boolean mDrawCircle;
 
-    private static final int SELECTED_CIRCLE_ALPHA = 255;
+  public TextViewWithCircularIndicator(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    Resources res = context.getResources();
+    mCircleColor = res.getColor(R.color.mdtp_accent_color);
+    mRadius = res.getDimensionPixelOffset(R.dimen.mdtp_month_select_circle_radius);
+    mItemIsSelectedText = context.getResources().getString(R.string.mdtp_item_is_selected);
 
-    Paint mCirclePaint = new Paint();
+    init();
+  }
 
-    private final int mRadius;
-    private final int mCircleColor;
-    private final String mItemIsSelectedText;
+  private void init() {
+    mCirclePaint.setFakeBoldText(true);
+    mCirclePaint.setAntiAlias(true);
+    mCirclePaint.setColor(mCircleColor);
+    mCirclePaint.setTextAlign(Align.CENTER);
+    mCirclePaint.setStyle(Style.FILL);
+    mCirclePaint.setAlpha(SELECTED_CIRCLE_ALPHA);
+  }
 
-    private boolean mDrawCircle;
+  public void drawIndicator(boolean drawCircle) {
+    mDrawCircle = drawCircle;
+  }
 
-    public TextViewWithCircularIndicator(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        Resources res = context.getResources();
-        mCircleColor = res.getColor(R.color.mdtp_accent_color);
-        mRadius = res.getDimensionPixelOffset(R.dimen.mdtp_month_select_circle_radius);
-        mItemIsSelectedText = context.getResources().getString(R.string.mdtp_item_is_selected);
-
-        init();
+  @Override public void onDraw(@NonNull Canvas canvas) {
+    if (mDrawCircle) {
+      final int width = getWidth();
+      final int height = getHeight();
+      int radius = Math.min(width, height) / 2;
+      canvas.drawCircle(width / 2, height / 2, radius, mCirclePaint);
     }
+    setSelected(mDrawCircle);
+    super.onDraw(canvas);
+  }
 
-    private void init() {
-        mCirclePaint.setFakeBoldText(true);
-        mCirclePaint.setAntiAlias(true);
-        mCirclePaint.setColor(mCircleColor);
-        mCirclePaint.setTextAlign(Align.CENTER);
-        mCirclePaint.setStyle(Style.FILL);
-        mCirclePaint.setAlpha(SELECTED_CIRCLE_ALPHA);
+  @Override public CharSequence getContentDescription() {
+    String itemText = LanguageUtils.getPersianNumbers(getText().toString());
+    if (mDrawCircle) {
+      return String.format(mItemIsSelectedText, itemText);
+    } else {
+      return itemText;
     }
-
-    public void drawIndicator(boolean drawCircle) {
-        mDrawCircle = drawCircle;
-    }
-
-    @Override
-    public void onDraw(@NonNull Canvas canvas) {
-        if (mDrawCircle) {
-            final int width = getWidth();
-            final int height = getHeight();
-            int radius = Math.min(width, height) / 2;
-            canvas.drawCircle(width / 2, height / 2, radius, mCirclePaint);
-        }
-        setSelected(mDrawCircle);
-        super.onDraw(canvas);
-    }
-
-    @SuppressLint("GetContentDescriptionOverride")
-    @Override
-    public CharSequence getContentDescription() {
-        String itemText = LanguageUtils.getPersianNumbers(getText().toString());
-        if (mDrawCircle) {
-            return String.format(mItemIsSelectedText, itemText);
-        } else {
-            return itemText;
-        }
-    }
+  }
 }

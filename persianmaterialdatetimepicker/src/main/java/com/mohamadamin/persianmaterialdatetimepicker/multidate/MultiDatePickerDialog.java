@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.mohamadamin.persianmaterialdatetimepicker.multidate;
 
 import android.animation.ObjectAnimator;
@@ -36,7 +35,6 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.mohamadamin.persianmaterialdatetimepicker.HapticFeedbackController;
 import com.mohamadamin.persianmaterialdatetimepicker.R;
 import com.mohamadamin.persianmaterialdatetimepicker.TypefaceHelper;
@@ -44,7 +42,6 @@ import com.mohamadamin.persianmaterialdatetimepicker.Utils;
 import com.mohamadamin.persianmaterialdatetimepicker.date.AccessibleDateAnimator;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.LanguageUtils;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -53,15 +50,12 @@ import java.util.HashSet;
 /**
  * Dialog allowing users to select a date.
  */
-public class MultiDatePickerDialog extends DialogFragment implements
-  OnClickListener, DatePickerController {
-
+public class MultiDatePickerDialog extends DialogFragment
+    implements OnClickListener, DatePickerController {
   private static final String TAG = "MultiDatePickerDialog";
-
   private static final int UNINITIALIZED = -1;
   private static final int MONTH_AND_DAY_VIEW = 0;
   private static final int YEAR_VIEW = 1;
-
   private static final String KEY_SELECTED_DAYS = "selectedDays";
   private static final String KEY_LIST_POSITION = "list_position";
   private static final String KEY_WEEK_START = "week_start";
@@ -75,21 +69,16 @@ public class MultiDatePickerDialog extends DialogFragment implements
   private static final String KEY_HIGHLIGHTED_DAYS = "highlighted_days";
   private static final String KEY_SELECTABLE_DAYS = "selectable_days";
   private static final String KEY_THEME_DARK = "theme_dark";
-
   private static final int DEFAULT_START_YEAR = 1350;
   private static final int DEFAULT_END_YEAR = 1450;
-
   private static final int ANIMATION_DURATION = 300;
   private static final int ANIMATION_DELAY = 500;
-
   private final ArrayList<PersianCalendar> mSelectedDaysCalendars = new ArrayList<>();
   private OnDateSetListener mCallBack;
   private HashSet<OnDateChangedListener> mListeners = new HashSet<>();
   private DialogInterface.OnCancelListener mOnCancelListener;
   private DialogInterface.OnDismissListener mOnDismissListener;
-
   private AccessibleDateAnimator mAnimator;
-
   private TextView mDayOfWeekView;
   private LinearLayout mMonthAndDayView;
   private TextView mSelectedMonthTextView;
@@ -97,9 +86,7 @@ public class MultiDatePickerDialog extends DialogFragment implements
   private TextView mYearView;
   private DayPickerView mDayPickerView;
   private YearPickerView mYearPickerView;
-
   private int mCurrentView = UNINITIALIZED;
-
   private int mWeekStart = PersianCalendar.SATURDAY;
   private int mMinYear = DEFAULT_START_YEAR;
   private int mMaxYear = DEFAULT_END_YEAR;
@@ -109,55 +96,32 @@ public class MultiDatePickerDialog extends DialogFragment implements
   private PersianCalendar[] highlightedDays;
   private PersianCalendar[] selectableDays;
   private boolean mThemeDark;
-
   private HapticFeedbackController mHapticFeedbackController;
-
   private boolean mDelayAnimation = true;
-
   // Accessibility strings.
   private String mDayPickerDescription;
   private String mSelectDay;
   private String mYearPickerDescription;
   private String mSelectYear;
-
-  private String fontName="DroidNaskh-Regular";
-
-  /**
-   * The callback used to indicate the user is done filling in the date.
-   */
-  public interface OnDateSetListener {
-
-    /**
-     * @param view         The view associated with this listener.
-     * @param selectedDays List of days that have been selected.
-     */
-    void onDateSet(MultiDatePickerDialog view, ArrayList<PersianCalendar> selectedDays);
-  }
-
-  /**
-   * The callback used to notify other date picker components of a change in selected date.
-   */
-  public interface OnDateChangedListener {
-
-    void onDateChanged();
-  }
-
+  private String fontName = "Roboto-Medium";
 
   public MultiDatePickerDialog() {
     // Empty constructor required for dialog fragment.
   }
 
   /**
-   * @param callBack     How the parent is notified that the date is set.
+   * @param callBack How the parent is notified that the date is set.
    * @param selectedDays Selected days shown on date picker.
    */
-  public static MultiDatePickerDialog newInstance(OnDateSetListener callBack, @Nullable ArrayList<PersianCalendar> selectedDays) {
+  public static MultiDatePickerDialog newInstance(OnDateSetListener callBack,
+      @Nullable ArrayList<PersianCalendar> selectedDays) {
     MultiDatePickerDialog ret = new MultiDatePickerDialog();
     ret.initialize(callBack, selectedDays);
     return ret;
   }
 
-  public void initialize(OnDateSetListener callBack, @Nullable ArrayList<PersianCalendar> selectedDays) {
+  public void initialize(OnDateSetListener callBack,
+      @Nullable ArrayList<PersianCalendar> selectedDays) {
     mCallBack = callBack;
     if (selectedDays != null) {
       setSelectedDays(selectedDays);
@@ -168,20 +132,19 @@ public class MultiDatePickerDialog extends DialogFragment implements
     mThemeDark = false;
   }
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     final Activity activity = getActivity();
-    activity.getWindow().setSoftInputMode(
-      WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    activity.getWindow()
+        .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     if (savedInstanceState != null) {
       mSelectedDaysCalendars.clear();
-      mSelectedDaysCalendars.addAll((ArrayList<PersianCalendar>) savedInstanceState.getSerializable(KEY_SELECTED_DAYS));
+      mSelectedDaysCalendars.addAll(
+          (ArrayList<PersianCalendar>) savedInstanceState.getSerializable(KEY_SELECTED_DAYS));
     }
   }
 
-  @Override
-  public void onSaveInstanceState(@NonNull Bundle outState) {
+  @Override public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_SELECTED_DAYS, mSelectedDaysCalendars);
     outState.putInt(KEY_WEEK_START, mWeekStart);
@@ -204,9 +167,8 @@ public class MultiDatePickerDialog extends DialogFragment implements
     outState.putBoolean(KEY_THEME_DARK, mThemeDark);
   }
 
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
     Log.d(TAG, "onCreateView: ");
     getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
@@ -239,7 +201,8 @@ public class MultiDatePickerDialog extends DialogFragment implements
       listPositionOffset = savedInstanceState.getInt(KEY_LIST_POSITION_OFFSET);
       mMinDate = (PersianCalendar) savedInstanceState.getSerializable(KEY_MIN_DATE);
       mMaxDate = (PersianCalendar) savedInstanceState.getSerializable(KEY_MAX_DATE);
-      highlightedDays = (PersianCalendar[]) savedInstanceState.getSerializable(KEY_HIGHLIGHTED_DAYS);
+      highlightedDays =
+          (PersianCalendar[]) savedInstanceState.getSerializable(KEY_HIGHLIGHTED_DAYS);
       selectableDays = (PersianCalendar[]) savedInstanceState.getSerializable(KEY_SELECTABLE_DAYS);
       mThemeDark = savedInstanceState.getBoolean(KEY_THEME_DARK);
     }
@@ -253,13 +216,15 @@ public class MultiDatePickerDialog extends DialogFragment implements
     mYearPickerDescription = res.getString(R.string.mdtp_year_picker_description);
     mSelectYear = res.getString(R.string.mdtp_select_year);
 
-    int bgColorResource = mThemeDark ? R.color.mdtp_date_picker_view_animator_dark_theme : R.color.mdtp_date_picker_view_animator;
+    int bgColorResource = mThemeDark ? R.color.mdtp_date_picker_view_animator_dark_theme
+        : R.color.mdtp_date_picker_view_animator;
     view.setBackgroundColor(activity.getResources().getColor(bgColorResource));
 
     mAnimator = view.findViewById(R.id.animator);
     mAnimator.addView(mDayPickerView);
     mAnimator.addView(mYearPickerView);
-    mAnimator.setDateMillis(mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getTimeInMillis());
+    mAnimator.setDateMillis(
+        mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getTimeInMillis());
     // TODO: Replace with animation decided upon by the design team.
     Animation animation = new AlphaAnimation(0.0f, 1.0f);
     animation.setDuration(ANIMATION_DURATION);
@@ -271,9 +236,7 @@ public class MultiDatePickerDialog extends DialogFragment implements
 
     Button okButton = view.findViewById(R.id.ok);
     okButton.setOnClickListener(new OnClickListener() {
-
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         tryVibrate();
         if (mCallBack != null) {
           mCallBack.onDateSet(MultiDatePickerDialog.this, mSelectedDaysCalendars);
@@ -285,8 +248,7 @@ public class MultiDatePickerDialog extends DialogFragment implements
 
     Button cancelButton = view.findViewById(R.id.cancel);
     cancelButton.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         tryVibrate();
         getDialog().cancel();
       }
@@ -309,28 +271,24 @@ public class MultiDatePickerDialog extends DialogFragment implements
     return view;
   }
 
-  @Override
-  public void onResume() {
+  @Override public void onResume() {
     super.onResume();
     mHapticFeedbackController.start();
   }
 
-  @Override
-  public void onPause() {
+  @Override public void onPause() {
     super.onPause();
     mHapticFeedbackController.stop();
   }
 
-  @Override
-  public void onCancel(DialogInterface dialog) {
+  @Override public void onCancel(DialogInterface dialog) {
     super.onCancel(dialog);
     if (mOnCancelListener != null) {
       mOnCancelListener.onCancel(dialog);
     }
   }
 
-  @Override
-  public void onDismiss(DialogInterface dialog) {
+  @Override public void onDismiss(DialogInterface dialog) {
     super.onDismiss(dialog);
     if (mOnDismissListener != null) {
       mOnDismissListener.onDismiss(dialog);
@@ -341,8 +299,7 @@ public class MultiDatePickerDialog extends DialogFragment implements
 
     switch (viewIndex) {
       case MONTH_AND_DAY_VIEW:
-        ObjectAnimator pulseAnimator = Utils.getPulseAnimator(mMonthAndDayView, 0.9f,
-          1.05f);
+        ObjectAnimator pulseAnimator = Utils.getPulseAnimator(mMonthAndDayView, 0.9f, 1.05f);
         if (mDelayAnimation) {
           pulseAnimator.setStartDelay(ANIMATION_DELAY);
           mDelayAnimation = false;
@@ -356,7 +313,8 @@ public class MultiDatePickerDialog extends DialogFragment implements
         }
         pulseAnimator.start();
 
-        String dayString = LanguageUtils.getPersianNumbers(mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianLongDate());
+        String dayString = LanguageUtils.getPersianNumbers(
+            mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianLongDate());
         mAnimator.setContentDescription(mDayPickerDescription + ": " + dayString);
         Utils.tryAccessibilityAnnounce(mAnimator, mSelectDay);
         break;
@@ -376,7 +334,8 @@ public class MultiDatePickerDialog extends DialogFragment implements
         pulseAnimator.start();
 
         String yearString = LanguageUtils.
-          getPersianNumbers(String.valueOf(mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianYear()));
+            getPersianNumbers(String.valueOf(
+                mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianYear()));
         mAnimator.setContentDescription(mYearPickerDescription + ": " + yearString);
         Utils.tryAccessibilityAnnounce(mAnimator, mSelectYear);
         break;
@@ -393,35 +352,24 @@ public class MultiDatePickerDialog extends DialogFragment implements
     }
 
     mSelectedMonthTextView.setText(LanguageUtils.
-      getPersianNumbers(target.getPersianMonthName()));
+        getPersianNumbers(target.getPersianMonthName()));
     mSelectedDayTextView.setText(LanguageUtils.
-      getPersianNumbers(String.valueOf(target.getPersianDay())));
+        getPersianNumbers(String.valueOf(target.getPersianDay())));
     mYearView.setText(LanguageUtils.
-      getPersianNumbers(String.valueOf(mSelectedYear)));
+        getPersianNumbers(String.valueOf(mSelectedYear)));
 
     // Accessibility.
     long millis = target.getTimeInMillis();
     mAnimator.setDateMillis(millis);
     String monthAndDayText = LanguageUtils.getPersianNumbers(
-      target.getPersianMonthName() + " " +
-        target.getPersianDay()
-    );
+        target.getPersianMonthName() + " " + target.getPersianDay());
     mMonthAndDayView.setContentDescription(monthAndDayText);
 
     if (announce) {
       String fullDateText = LanguageUtils.
-        getPersianNumbers(target.getPersianLongDate());
+          getPersianNumbers(target.getPersianLongDate());
       Utils.tryAccessibilityAnnounce(mAnimator, fullDateText);
     }
-  }
-
-  /**
-   * Set whether the dark theme should be used
-   *
-   * @param themeDark true if the dark theme should be used, false if the default theme should be used
-   */
-  public void setThemeDark(boolean themeDark) {
-    mThemeDark = themeDark;
   }
 
   /**
@@ -429,25 +377,21 @@ public class MultiDatePickerDialog extends DialogFragment implements
    *
    * @return true if the dark theme should be used, false if the default theme should be used
    */
-  @Override
-  public boolean isThemeDark() {
+  @Override public boolean isThemeDark() {
     return mThemeDark;
   }
 
-  @SuppressWarnings("unused")
-  public void setFirstDayOfWeek(int startOfWeek) {
-    if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
-      throw new IllegalArgumentException("Value must be between Calendar.SUNDAY and " +
-        "Calendar.SATURDAY");
-    }
-    mWeekStart = startOfWeek;
-    if (mDayPickerView != null) {
-      mDayPickerView.onChange();
-    }
+  /**
+   * Set whether the dark theme should be used
+   *
+   * @param themeDark true if the dark theme should be used, false if the default theme should be
+   * used
+   */
+  public void setThemeDark(boolean themeDark) {
+    mThemeDark = themeDark;
   }
 
-  @SuppressWarnings("unused")
-  public void setYearRange(int startYear, int endYear) {
+  @SuppressWarnings("unused") public void setYearRange(int startYear, int endYear) {
     if (endYear < startYear) {
       throw new IllegalArgumentException("Year end must be larger than or equal to year start");
     }
@@ -460,37 +404,20 @@ public class MultiDatePickerDialog extends DialogFragment implements
   }
 
   /**
+   * @return The minimal date supported by this DatePicker. Null if it has not been set.
+   */
+  @Override public PersianCalendar getMinDate() {
+    return mMinDate;
+  }
+
+  /**
    * Sets the minimal date supported by this DatePicker. Dates before (but not including) the
    * specified date will be disallowed from being selected.
    *
    * @param calendar a Calendar object set to the year, month, day desired as the mindate.
    */
-  @SuppressWarnings("unused")
-  public void setMinDate(PersianCalendar calendar) {
+  @SuppressWarnings("unused") public void setMinDate(PersianCalendar calendar) {
     mMinDate = calendar;
-
-    if (mDayPickerView != null) {
-      mDayPickerView.onChange();
-    }
-  }
-
-  /**
-   * @return The minimal date supported by this DatePicker. Null if it has not been set.
-   */
-  @Override
-  public PersianCalendar getMinDate() {
-    return mMinDate;
-  }
-
-  /**
-   * Sets the minimal date supported by this DatePicker. Dates after (but not including) the
-   * specified date will be disallowed from being selected.
-   *
-   * @param calendar a Calendar object set to the year, month, day desired as the maxdate.
-   */
-  @SuppressWarnings("unused")
-  public void setMaxDate(PersianCalendar calendar) {
-    mMaxDate = calendar;
 
     if (mDayPickerView != null) {
       mDayPickerView.onChange();
@@ -500,9 +427,30 @@ public class MultiDatePickerDialog extends DialogFragment implements
   /**
    * @return The maximal date supported by this DatePicker. Null if it has not been set.
    */
-  @Override
-  public PersianCalendar getMaxDate() {
+  @Override public PersianCalendar getMaxDate() {
     return mMaxDate;
+  }
+
+  /**
+   * Sets the minimal date supported by this DatePicker. Dates after (but not including) the
+   * specified date will be disallowed from being selected.
+   *
+   * @param calendar a Calendar object set to the year, month, day desired as the maxdate.
+   */
+  @SuppressWarnings("unused") public void setMaxDate(PersianCalendar calendar) {
+    mMaxDate = calendar;
+
+    if (mDayPickerView != null) {
+      mDayPickerView.onChange();
+    }
+  }
+
+  /**
+   * @return The list of dates, as Calendar Objects, which should be highlighted. null is no dates
+   * should be highlighted
+   */
+  @Override public PersianCalendar[] getHighlightedDays() {
+    return highlightedDays;
   }
 
   /**
@@ -510,19 +458,18 @@ public class MultiDatePickerDialog extends DialogFragment implements
    *
    * @param highlightedDays an Array of Calendar objects containing the dates to be highlighted
    */
-  @SuppressWarnings("unused")
-  public void setHighlightedDays(PersianCalendar[] highlightedDays) {
+  @SuppressWarnings("unused") public void setHighlightedDays(PersianCalendar[] highlightedDays) {
     // Sort the array to optimize searching over it later on
     Arrays.sort(highlightedDays);
     this.highlightedDays = highlightedDays;
   }
 
   /**
-   * @return The list of dates, as Calendar Objects, which should be highlighted. null is no dates should be highlighted
+   * @return an Array of Calendar objects containing the list with selectable items. null if no
+   * restriction is set
    */
-  @Override
-  public PersianCalendar[] getHighlightedDays() {
-    return highlightedDays;
+  @Override public PersianCalendar[] getSelectableDays() {
+    return selectableDays;
   }
 
   /**
@@ -531,23 +478,13 @@ public class MultiDatePickerDialog extends DialogFragment implements
    *
    * @param selectableDays an Array of Calendar Objects containing the selectable dates
    */
-  @SuppressWarnings("unused")
-  public void setSelectableDays(PersianCalendar[] selectableDays) {
+  @SuppressWarnings("unused") public void setSelectableDays(PersianCalendar[] selectableDays) {
     // Sort the array to optimize searching over it later on
     Arrays.sort(selectableDays);
     this.selectableDays = selectableDays;
   }
 
-  /**
-   * @return an Array of Calendar objects containing the list with selectable items. null if no restriction is set
-   */
-  @Override
-  public PersianCalendar[] getSelectableDays() {
-    return selectableDays;
-  }
-
-  @SuppressWarnings("unused")
-  public void setOnDateSetListener(OnDateSetListener listener) {
+  @SuppressWarnings("unused") public void setOnDateSetListener(OnDateSetListener listener) {
     mCallBack = listener;
   }
 
@@ -566,15 +503,14 @@ public class MultiDatePickerDialog extends DialogFragment implements
   //      e.g. Switching from Mar to Apr when Mar 31 is selected -> Apr 30
   //      e.g. Switching from 2012 to 2013 when Feb 29, 2012 is selected -> Feb 28, 2013
   private void adjustDayInMonthIfNeeded(int month, int year) {
-//        int day = mPersianCalendar.getPersianDay();
-//        int daysInMonth = Utils.getDaysInMonth(month, year);
-//        if (day > daysInMonth) {
-//            mPersianCalendar.setPersianDate(Persian);
-//        } TODO
+    //        int day = mPersianCalendar.getPersianDay();
+    //        int daysInMonth = Utils.getDaysInMonth(month, year);
+    //        if (day > daysInMonth) {
+    //            mPersianCalendar.setPersianDate(Persian);
+    //        } TODO
   }
 
-  @Override
-  public void onClick(View v) {
+  @Override public void onClick(View v) {
     tryVibrate();
     if (v.getId() == R.id.date_picker_year) {
       setCurrentView(YEAR_VIEW);
@@ -583,22 +519,22 @@ public class MultiDatePickerDialog extends DialogFragment implements
     }
   }
 
-  @Override
-  public void onYearSelected(int year) {
+  @Override public void onYearSelected(int year) {
     mSelectedYear = year;
-    adjustDayInMonthIfNeeded(mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianMonth(), year);
+    adjustDayInMonthIfNeeded(
+        mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianMonth(), year);
     if (mSelectedDaysCalendars.size() == 1) {
-      mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).setPersianDate(year
-        , mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianMonth(),
-        mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianDay());
+      mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1)
+          .setPersianDate(year,
+              mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianMonth(),
+              mSelectedDaysCalendars.get(mSelectedDaysCalendars.size() - 1).getPersianDay());
     }
     updatePickers();
     setCurrentView(MONTH_AND_DAY_VIEW);
     updateDisplay(true);
   }
 
-  @Override
-  public void onDaysOfMonthSelected(ArrayList<PersianCalendar> selectedDays) {
+  @Override public void onDaysOfMonthSelected(ArrayList<PersianCalendar> selectedDays) {
     //setSelectedDays(selectedDays);
     mSelectedYear = selectedDays.get(selectedDays.size() - 1).getPersianYear();
     updatePickers();
@@ -611,68 +547,87 @@ public class MultiDatePickerDialog extends DialogFragment implements
     }
   }
 
-
-  @Override
-  public ArrayList<PersianCalendar> getSelectedDays() {
+  @Override public ArrayList<PersianCalendar> getSelectedDays() {
     return mSelectedDaysCalendars;
   }
 
-  @Override
-  public void setSelectedDays(ArrayList<PersianCalendar> selectedDays) {
+  @Override public void setSelectedDays(ArrayList<PersianCalendar> selectedDays) {
     mSelectedDaysCalendars.clear();
     mSelectedDaysCalendars.addAll(selectedDays);
   }
 
-  @Override
-  public int getMinYear() {
+  @Override public int getMinYear() {
     if (selectableDays != null) {
       return selectableDays[0].getPersianYear();
     }
     // Ensure no years can be selected outside of the given minimum date
-    return mMinDate != null && mMinDate.getPersianYear() > mMinYear ? mMinDate.getPersianYear() : mMinYear;
+    return mMinDate != null && mMinDate.getPersianYear() > mMinYear ? mMinDate.getPersianYear()
+        : mMinYear;
   }
 
-  @Override
-  public int getMaxYear() {
+  @Override public int getMaxYear() {
     if (selectableDays != null) {
       return selectableDays[selectableDays.length - 1].getPersianYear();
     }
     // Ensure no years can be selected outside of the given maximum date
-    return mMaxDate != null && mMaxDate.getPersianYear() < mMaxYear ? mMaxDate.getPersianYear() : mMaxYear;
+    return mMaxDate != null && mMaxDate.getPersianYear() < mMaxYear ? mMaxDate.getPersianYear()
+        : mMaxYear;
   }
 
-  @Override
-  public int getSelectedYear() {
+  @Override public int getSelectedYear() {
     return mSelectedYear;
   }
 
-  @Override
-  public int getFirstDayOfWeek() {
+  @Override public int getFirstDayOfWeek() {
     return mWeekStart;
   }
 
-  @Override
-  public void registerOnDateChangedListener(OnDateChangedListener listener) {
+  @SuppressWarnings("unused") public void setFirstDayOfWeek(int startOfWeek) {
+    if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
+      throw new IllegalArgumentException(
+          "Value must be between Calendar.SUNDAY and " + "Calendar.SATURDAY");
+    }
+    mWeekStart = startOfWeek;
+    if (mDayPickerView != null) {
+      mDayPickerView.onChange();
+    }
+  }
+
+  @Override public void registerOnDateChangedListener(OnDateChangedListener listener) {
     mListeners.add(listener);
   }
 
-  @Override
-  public void unregisterOnDateChangedListener(OnDateChangedListener listener) {
+  @Override public void unregisterOnDateChangedListener(OnDateChangedListener listener) {
     mListeners.remove(listener);
   }
 
-  @Override
-  public void tryVibrate() {
+  @Override public void tryVibrate() {
     mHapticFeedbackController.tryVibrate();
   }
 
-  @Override
-  public void setTypeface(String fontName) {
+  @Override public String getTypeface() {
+    return fontName;
+  }
+
+  @Override public void setTypeface(String fontName) {
     this.fontName = fontName;
   }
 
-  @Override
-  public String getTypeface() {
-    return fontName;
+  /**
+   * The callback used to indicate the user is done filling in the date.
+   */
+  public interface OnDateSetListener {
+    /**
+     * @param view The view associated with this listener.
+     * @param selectedDays List of days that have been selected.
+     */
+    void onDateSet(MultiDatePickerDialog view, ArrayList<PersianCalendar> selectedDays);
+  }
+
+  /**
+   * The callback used to notify other date picker components of a change in selected date.
+   */
+  public interface OnDateChangedListener {
+    void onDateChanged();
   }
 }
