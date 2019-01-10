@@ -50,7 +50,7 @@
       android:layout_marginLeft="@dimen/mdtp_extra_time_label_margin"
       android:layout_marginRight="@dimen/mdtp_extra_time_label_margin"
       >
-    <com.mohamadamin.persianmaterialdatetimepicker.AccessibleTextView
+    <com.golrangsystem.persianmaterialdatetimepicker.AccessibleTextView
         android:id="@+id/hours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
       android:layout_marginLeft="@dimen/mdtp_extra_time_label_margin"
       android:layout_marginRight="@dimen/mdtp_extra_time_label_margin"
       >
-    <com.mohamadamin.persianmaterialdatetimepicker.AccessibleTextView
+    <com.golrangsystem.persianmaterialdatetimepicker.AccessibleTextView
         android:id="@+id/minutes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
         style="@style/mdtp_time_label"
         />
   </FrameLayout>
-  <com.mohamadamin.persianmaterialdatetimepicker.AccessibleTextView
+  <com.golrangsystem.persianmaterialdatetimepicker.AccessibleTextView
       android:id="@+id/ampm_hitspace"
       android:layout_width="@dimen/mdtp_ampm_label_size"
       android:layout_height="wrap_content"

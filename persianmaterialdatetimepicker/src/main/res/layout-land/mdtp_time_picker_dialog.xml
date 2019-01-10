@@ -22,7 +22,7 @@
     android:focusable="true"
     android:orientation="horizontal"
     >
-  <com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout
+  <com.golrangsystem.persianmaterialdatetimepicker.time.RadialPickerLayout
       android:id="@+id/time_picker"
       android:layout_width="@dimen/mdtp_picker_dimen"
       android:layout_height="@dimen/mdtp_time_picker_height"

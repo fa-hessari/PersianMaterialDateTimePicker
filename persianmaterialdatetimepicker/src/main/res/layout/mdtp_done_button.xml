@@ -23,6 +23,25 @@
     android:orientation="horizontal"
     android:paddingBottom="8dp"
     >
+  <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="16dp"
+      android:layout_marginStart="16dp"
+      android:layout_weight="1"
+      >
+    <Button
+        android:id="@+id/mdtp_change_to_miladi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/mdtp_ad_date"
+        android:visibility="visible"
+        style="@style/mdtp_ActionButton.Text"
+        />
+  </LinearLayout>
   <Button
       android:id="@+id/cancel"
       android:layout_width="wrap_content"
