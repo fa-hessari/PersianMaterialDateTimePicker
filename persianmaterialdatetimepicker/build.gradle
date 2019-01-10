@@ -4,15 +4,15 @@ ext {
   bintrayRepo = 'maven'
   bintrayName = 'persianmaterialdatetimepicker'
 
-  publishedGroupId = 'com.mohamadamin'
+  publishedGroupId = 'com.golrangsystem'
   libraryName = 'PersianMaterialDateTimePicker'
   artifact = 'persianmaterialdatetimepicker'
 
   libraryDescription =
       'An Android library containing a shamsi (persian calendar) date picker and a time picker with Material Design style'
 
-  siteUrl = 'https://github.com/mohamad-amin/PersianMaterialDateTimePicker'
-  gitUrl = 'https://github.com/mohamad-amin/PersianMaterialDateTimePicker.git'
+  siteUrl = 'https://github.com/fa-hessari/PersianMaterialDateTimePicker'
+  gitUrl = 'https://github.com/fa-hessari/PersianMaterialDateTimePicker.git'
 
   libraryVersion = '2.0.2'
 
