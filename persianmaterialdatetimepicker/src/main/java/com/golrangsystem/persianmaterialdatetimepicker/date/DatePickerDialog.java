@@ -135,6 +135,16 @@ public class DatePickerDialog extends DialogFragment
     mThemeDark = false;
   }
 
+  public void initialize(OnDateSetListener callBack, int year, int monthOfYear, int dayOfMonth,
+      boolean hasMiladiButton,
+      OnChangeToMiladiDateClickListener onChangeToMiladiDateClickListener) {
+    mCallBack = callBack;
+    mPersianCalendar.setPersianDate(year, monthOfYear, dayOfMonth);
+    this.hasMiladiButton = hasMiladiButton;
+    this.onChangeToMiladiDateClickListener = onChangeToMiladiDateClickListener;
+    mThemeDark = false;
+  }
+
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     final Activity activity = getActivity();
@@ -403,6 +413,10 @@ public class DatePickerDialog extends DialogFragment
           getPersianNumbers(mPersianCalendar.getPersianLongDate());
       Utils.tryAccessibilityAnnounce(mAnimator, fullDateText);
     }
+  }
+
+  public void setHasMiladiButton(boolean hasMiladiButton) {
+    this.hasMiladiButton = hasMiladiButton;
   }
 
   /**
