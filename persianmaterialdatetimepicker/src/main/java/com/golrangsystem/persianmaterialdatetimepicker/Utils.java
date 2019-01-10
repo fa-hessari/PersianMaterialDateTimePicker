@@ -19,10 +19,8 @@ import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.View;
 import com.golrangsystem.persianmaterialdatetimepicker.utils.PersianCalendarUtils;
@@ -138,29 +136,5 @@ public class Utils {
     float px =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
     return (int) px;
-  }
-
-  /**
-   * Gets the colorAccent from the current context, if possible/available
-   *
-   * @param context The context to use as reference for the color
-   * @return the accent color of the current context
-   */
-  public static int getAccentColorFromThemeIfAvailable(Context context) {
-    TypedValue typedValue = new TypedValue();
-    // First, try the android:colorAccent
-    if (Build.VERSION.SDK_INT >= 21) {
-      context.getTheme().resolveAttribute(android.R.attr.colorAccent, typedValue, true);
-      return typedValue.data;
-    }
-    // Next, try colorAccent from support lib
-    int colorAccentResId =
-        context.getResources().getIdentifier("colorAccent", "attr", context.getPackageName());
-    if (colorAccentResId != 0 && context.getTheme()
-        .resolveAttribute(colorAccentResId, typedValue, true)) {
-      return typedValue.data;
-    }
-    // Return the value in fh_gig_mdtp_accent_color
-    return ContextCompat.getColor(context, R.color.mdtp_accent_color);
   }
 }

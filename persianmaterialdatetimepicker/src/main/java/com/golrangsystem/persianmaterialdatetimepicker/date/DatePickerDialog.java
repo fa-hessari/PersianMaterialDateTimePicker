@@ -81,10 +81,13 @@ public class DatePickerDialog extends DialogFragment
   private DialogInterface.OnDismissListener mOnDismissListener;
   private AccessibleDateAnimator mAnimator;
   private TextView mDatePickerHeader;
+  private LinearLayout mTopMainView;
   private LinearLayout mMonthAndDayView;
   private TextView mSelectedMonthTextView;
   private TextView mSelectedDayTextView;
   private TextView mYearView;
+  private Button okButton;
+  private Button cancelButton;
   private DayPickerView mDayPickerView;
   private YearPickerView mYearPickerView;
   private int mCurrentView = UNINITIALIZED;
@@ -103,7 +106,6 @@ public class DatePickerDialog extends DialogFragment
   private String mSelectDay;
   private String mYearPickerDescription;
   private String mSelectYear;
-  private int mAccentColor;
   private boolean hasTitle = true;
   private String headerTitle;
   private boolean hasMiladiButton = false;
@@ -186,10 +188,6 @@ public class DatePickerDialog extends DialogFragment
     Log.d(TAG, "onCreateView: ");
     getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
-    if (mAccentColor == -1) {
-      mAccentColor = Utils.getAccentColorFromThemeIfAvailable(getActivity());
-    }
-
     View view = inflater.inflate(R.layout.mdtp_date_picker_dialog, null);
 
     if (hasTitle) {
@@ -198,6 +196,7 @@ public class DatePickerDialog extends DialogFragment
     } else {
       mDatePickerHeader.setVisibility(View.GONE);
     }
+    mTopMainView = (LinearLayout) view.findViewById(R.id.day_picker_selected_date_layout);
     mMonthAndDayView = (LinearLayout) view.findViewById(R.id.date_picker_month_and_day);
     mMonthAndDayView.setOnClickListener(this);
     mSelectedMonthTextView = (TextView) view.findViewById(R.id.date_picker_month);
@@ -250,7 +249,7 @@ public class DatePickerDialog extends DialogFragment
     animation2.setDuration(ANIMATION_DURATION);
     mAnimator.setOutAnimation(animation2);
 
-    Button okButton = (Button) view.findViewById(R.id.ok);
+    okButton = (Button) view.findViewById(R.id.ok);
     okButton.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
         tryVibrate();
@@ -263,7 +262,7 @@ public class DatePickerDialog extends DialogFragment
     });
     okButton.setTypeface(TypefaceHelper.get(activity, "Roboto-Medium"));
 
-    Button cancelButton = (Button) view.findViewById(R.id.cancel);
+    cancelButton = (Button) view.findViewById(R.id.cancel);
     cancelButton.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
         tryVibrate();
@@ -397,6 +396,24 @@ public class DatePickerDialog extends DialogFragment
     }
   }
 
+  public void setHeaderBackgroundColor(int color) {
+    if (mDatePickerHeader != null && hasTitle) {
+      mDatePickerHeader.setBackgroundColor(color);
+    }
+  }
+
+  public void setTopMainBackgroundColor(int color) {
+    mTopMainView.setBackgroundColor(color);
+  }
+
+  public void setOkButtonTextColor(int color) {
+    okButton.setTextColor(color);
+  }
+
+  public void setCancelButtonTextColor(int color) {
+    cancelButton.setTextColor(color);
+  }
+
   private void updateDisplay(boolean announce) {
     if (mDatePickerHeader != null && hasTitle && headerTitle != null) {
       mDatePickerHeader.setText(mPersianCalendar.getPersianWeekDayName());
@@ -463,15 +480,6 @@ public class DatePickerDialog extends DialogFragment
    */
   @SuppressWarnings("unused") public void setChangeToMiladiColor(@ColorInt int color) {
     mChangeToMiladiColor = Color.argb(255, Color.red(color), Color.green(color), Color.blue(color));
-  }
-
-  /**
-   * Get the accent color of this dialog
-   *
-   * @return accent color
-   */
-  @Override public int getAccentColor() {
-    return mAccentColor;
   }
 
   /**
