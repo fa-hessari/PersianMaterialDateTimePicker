@@ -81,7 +81,7 @@ public class DatePickerDialog extends DialogFragment
   private DialogInterface.OnDismissListener mOnDismissListener;
   private AccessibleDateAnimator mAnimator;
   private TextView mDatePickerHeader;
-  private LinearLayout mTopMainView;
+  private LinearLayout mMainView;
   private LinearLayout mMonthAndDayView;
   private TextView mSelectedMonthTextView;
   private TextView mSelectedDayTextView;
@@ -110,14 +110,14 @@ public class DatePickerDialog extends DialogFragment
   private String mTitleText;
   private boolean hasMiladiButton = false;
   private OnChangeToMiladiDateClickListener onChangeToMiladiDateClickListener;
-  private int mChangeToMiladiTextColor = -1;
+  private Integer mChangeToMiladiTextColor = -1;
   private String mChangeToMiladiString;
   private int mChangeToMiladiResId = R.string.mdtp_ad_date;
-  private int mTitleTextColor = -1;
-  private int mTitleBackgroundColor = -1;
-  private int mMainBackgroundColor = -1;
-  private int mOkButtonTextColor = -1;
-  private int mCancelButtonTextColor = -1;
+  private Integer mTitleTextColor;
+  private Integer mTitleBackgroundColor;
+  private Integer mMainBackgroundColor;
+  private Integer mOkButtonTextColor;
+  private Integer mCancelButtonTextColor;
   private String mOkButtonText;
   private String mCancelButtonText;
 
@@ -202,19 +202,22 @@ public class DatePickerDialog extends DialogFragment
       if (mTitleText != null) {
         mDatePickerHeader.setText(mTitleText);
       }
-      if (mTitleTextColor != -1) {
+      if (mTitleTextColor != null) {
         mDatePickerHeader.setTextColor(mTitleTextColor);
       } else {
         mDatePickerHeader.setTextColor(
             getResources().getColor(R.color.mdtp_date_picker_text_normal));
       }
-      if (mTitleBackgroundColor != -1) {
+      if (mTitleBackgroundColor != null) {
         mDatePickerHeader.setBackgroundColor(mTitleBackgroundColor);
       }
     } else {
       mDatePickerHeader.setVisibility(View.GONE);
     }
-    mTopMainView = (LinearLayout) view.findViewById(R.id.day_picker_selected_date_layout);
+    mMainView = (LinearLayout) view.findViewById(R.id.day_picker_selected_date_layout);
+    if (mMainBackgroundColor != null) {
+      mMainView.setBackgroundColor(mMainBackgroundColor);
+    }
     mMonthAndDayView = (LinearLayout) view.findViewById(R.id.date_picker_month_and_day);
     mMonthAndDayView.setOnClickListener(this);
     mSelectedMonthTextView = (TextView) view.findViewById(R.id.date_picker_month);
@@ -281,7 +284,7 @@ public class DatePickerDialog extends DialogFragment
     if (mOkButtonText != null) {
       okButton.setText(mOkButtonText);
     }
-    if (mOkButtonTextColor != -1) {
+    if (mOkButtonTextColor != null) {
       okButton.setTextColor(mOkButtonTextColor);
     }
     okButton.setTypeface(TypefaceHelper.get(activity, "Roboto-Medium"));
@@ -296,7 +299,7 @@ public class DatePickerDialog extends DialogFragment
     if (mCancelButtonText != null) {
       cancelButton.setText(mCancelButtonText);
     }
-    if (mCancelButtonTextColor != -1) {
+    if (mCancelButtonTextColor != null) {
       cancelButton.setTextColor(mCancelButtonTextColor);
     }
     cancelButton.setTypeface(TypefaceHelper.get(activity, "Roboto-Medium"));
@@ -417,15 +420,15 @@ public class DatePickerDialog extends DialogFragment
     this.mTitleText = titleText;
   }
 
-  public void setTitleTextColor(int color) {
+  public void setTitleTextColor(@ColorInt int color) {
     this.mTitleTextColor = color;
   }
 
-  public void setTitleBackgroundColor(int color) {
+  public void setTitleBackgroundColor(@ColorInt int color) {
     this.mTitleBackgroundColor = color;
   }
 
-  public void setMainBackgroundColor(int color) {
+  public void setMainBackgroundColor(@ColorInt int color) {
     this.mMainBackgroundColor = color;
   }
 
@@ -433,7 +436,7 @@ public class DatePickerDialog extends DialogFragment
     this.mOkButtonText = mOkButtonText;
   }
 
-  public void setOkButtonTextColor(int color) {
+  public void setOkButtonTextColor(@ColorInt int color) {
     this.mOkButtonTextColor = color;
   }
 
@@ -441,7 +444,7 @@ public class DatePickerDialog extends DialogFragment
     this.mCancelButtonText = mCancelButtonText;
   }
 
-  public void setCancelButtonTextColor(int color) {
+  public void setCancelButtonTextColor(@ColorInt int color) {
     this.mCancelButtonTextColor = color;
   }
 
