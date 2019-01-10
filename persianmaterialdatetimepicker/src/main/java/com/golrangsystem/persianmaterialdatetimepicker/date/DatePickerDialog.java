@@ -204,12 +204,12 @@ public class DatePickerDialog extends DialogFragment
       }
       if (mTitleTextColor != -1) {
         mDatePickerHeader.setTextColor(mTitleTextColor);
-      }
-      if (mTitleBackgroundColor != -1) {
-        mDatePickerHeader.setBackgroundColor(mTitleBackgroundColor);
       } else {
         mDatePickerHeader.setTextColor(
             getResources().getColor(R.color.mdtp_date_picker_text_normal));
+      }
+      if (mTitleBackgroundColor != -1) {
+        mDatePickerHeader.setBackgroundColor(mTitleBackgroundColor);
       }
     } else {
       mDatePickerHeader.setVisibility(View.GONE);
@@ -413,8 +413,8 @@ public class DatePickerDialog extends DialogFragment
     this.hasTitle = hasTitle;
   }
 
-  public void setTitleText(String headerTitle) {
-    this.mTitleText = headerTitle;
+  public void setTitleText(String titleText) {
+    this.mTitleText = titleText;
   }
 
   public void setTitleTextColor(int color) {
@@ -446,7 +446,7 @@ public class DatePickerDialog extends DialogFragment
   }
 
   private void updateDisplay(boolean announce) {
-    if (mDatePickerHeader != null && hasTitle && mTitleText != null) {
+    if (mDatePickerHeader != null && hasTitle && mTitleText == null) {
       mDatePickerHeader.setText(mPersianCalendar.getPersianWeekDayName());
     }
     mSelectedMonthTextView.setText(LanguageUtils.
