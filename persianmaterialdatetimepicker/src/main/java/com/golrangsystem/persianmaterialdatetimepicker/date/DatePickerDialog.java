@@ -338,6 +338,8 @@ public class DatePickerDialog extends DialogFragment
           this.dismiss();
         });
       }
+    } else {
+      changeToMiladiBt.setVisibility(View.GONE);
     }
     mHapticFeedbackController = new HapticFeedbackController(activity);
     return view;
