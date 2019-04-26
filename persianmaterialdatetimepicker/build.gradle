@@ -14,7 +14,7 @@ ext {
   siteUrl = 'https://github.com/fa-hessari/PersianMaterialDateTimePicker'
   gitUrl = 'https://github.com/fa-hessari/PersianMaterialDateTimePicker.git'
 
-  libraryVersion = '2.0.4'
+  libraryVersion = '2.0.5'
 
   developerId = 'fa-hessari'
   developerName = 'Farhad A.Hessari'
@@ -31,9 +31,9 @@ android {
 
   defaultConfig {
     minSdkVersion 17
-    targetSdkVersion 27
-    versionCode 9
-    versionName "2.0.4"
+    targetSdkVersion 28
+    versionCode 10
+    versionName "2.0.5"
   }
   buildTypes {
     release {
